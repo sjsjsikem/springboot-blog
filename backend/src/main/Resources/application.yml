@@ -1,0 +1,49 @@
+spring:
+  profiles:
+    active: dev  # 默认激活开发环境
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: blog_user
+    password: blog123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+    # HikariCP 连接池配置
+    hikari:
+      maximum-pool-size: 10        # 最大连接数
+      minimum-idle: 5              # 最小空闲连接
+      connection-timeout: 30000    # 连接超时时间（毫秒）
+      idle-timeout: 600000         # 空闲连接超时
+      max-lifetime: 1800000        # 连接最大生命周期
+  
+  # JPA 配置
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect  # 指定 MySQL 方言
+    hibernate:
+      ddl-auto: update  # 自动创建/更新表结构
+    show-sql: true      # 控制台显示 SQL 语句
+    properties:
+      hibernate:
+        format_sql: true  # 格式化 SQL 输出
+        
+  # Jackson 配置
+  jackson:
+    # 日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    
+    # 序列化配置
+    serialization:
+      write-dates-as-timestamps: false  # 不使用时间戳
+      fail-on-empty-beans: false       # 空对象不报错
+    
+    # 反序列化配置
+    deserialization:
+      fail-on-unknown-properties: false  # 忽略未知属性
+    
+    # 包含/排除配置
+    default-property-inclusion: non_null  # 只包含非 null 的属性
+
+app:
+  name: 博客系统
+  version: 1.0.0
