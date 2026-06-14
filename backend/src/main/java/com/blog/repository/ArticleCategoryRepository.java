@@ -1,6 +1,6 @@
 package com.blog.repository;
 
-import com.blog.entity.ArticleTag;
+import com.blog.entity.ArticleCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,7 +1,9 @@
 package com.blog.controller;
 
 import com.blog.common.Result;
+import com.blog.entity.ArticleCategory;
 import com.blog.entity.Category;
+import com.blog.repository.ArticleCategoryRepository;
 import com.blog.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

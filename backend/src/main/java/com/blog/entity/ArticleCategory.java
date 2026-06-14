@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "category_tag", 
+@Table(name = "article_category", 
        uniqueConstraints = @UniqueConstraint(columnNames = {"article_id", "category_id"}))
 @Data
 @NoArgsConstructor
@@ -31,7 +31,7 @@ public class ArticleCategory {
     private LocalDateTime createTime;
 
     // 构造方法
-    public ArticleTag(Long articleId, Long categoryId) {
+    public ArticleCategory(Long articleId, Long categoryId) {
         this.article = new Article();
         this.article.setId(articleId);
         this.category = new Category();

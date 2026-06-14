@@ -27,8 +27,8 @@ public interface ArticleTagRepository extends JpaRepository<ArticleTag, Long> {
      * 根据标签 ID 查询文章 ID 列表
      * 用于按标签筛选文章
      */
-    // @Query("SELECT at.article.id FROM ArticleTag at WHERE at.tag.id = :tagId")
-    // List<Long> findArticleIdsByTagId(@Param("tagId") Long tagId);
+    @Query("SELECT at.article.id FROM ArticleTag at WHERE at.tag.id = :tagId")
+    List<Long> findArticleIdsByTagId(@Param("tagId") Long tagId);
     
     /**
      * 根据文章 ID 查询所有标签关联
