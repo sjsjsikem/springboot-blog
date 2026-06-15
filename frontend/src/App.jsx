@@ -28,6 +28,7 @@ import ArticleList from './pages/ArticleList'
 import ArticleDetail from './pages/ArticleDetail'
 import CreateArticle from './pages/CreateArticle'
 import CreateCategory from './pages/CreateCategory'
+import CategoryDetail from './pages/CategoryDetail'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import CommentList from './pages/CommentList'
@@ -53,6 +54,7 @@ function App() {
                 <Route path="/article/:id" element={<ArticleDetail />} />
                 <Route path="/create" element={<CreateArticle />} />
                 <Route path="/createCategory" element={<CreateCategory />} />
+                <Route path="/category/:id" element={<CategoryDetail />} />
                 <Route path="/comments" element={<CommentList/>} />
                 
                 {/* 认证路由 */}

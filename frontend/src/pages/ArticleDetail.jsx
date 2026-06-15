@@ -12,6 +12,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import articleService from '../services/articleService'
+import categoryService from '../services/CategoryService'
 
 function ArticleDetail() {
   /**
@@ -32,6 +33,9 @@ function ArticleDetail() {
   
   // State: 文章数据---文章实体
   const [article, setArticle] = useState(null)
+  
+  // State: 分类数据
+  const [category, setCategory] = useState(null)
   
   // State: 加载状态
   const [loading, setLoading] = useState(true)
@@ -62,7 +66,21 @@ function ArticleDetail() {
       const response = await articleService.getArticleById(id)
       console.log('✅ 加载成功:', response)
       // 更新文章数据
-      setArticle(response.data || response)
+      const articleData = response.data || response
+      setArticle(articleData)
+
+      // 如果文章有分类ID，加载分类信息
+      if (articleData.categoryId) {
+        try {
+          const categoryResponse = await categoryService.getById(articleData.categoryId)
+          setCategory(categoryResponse.data || categoryResponse)
+        } catch (err) {
+          console.error('❌ 加载分类失败:', err)
+          setCategory(null)
+        }
+      } else {
+        setCategory(null)
+      }
 
       //对文章浏览量进行增加
       await articleService.incrementViewCount(id)
@@ -204,6 +222,54 @@ function ArticleDetail() {
         <span style={{ marginLeft: '20px' }}>文章 ID：{article.id || id}</span>
         <span style={{ marginLeft: '20px' }}>点赞数：{article.likeCount || 0}</span>
         <span style={{ marginLeft: '20px' }}>浏览量：{article.viewCount || 0}</span>
+      </div>
+      
+      {/* 分类标签 */}
+      <div style={{ 
+        marginBottom: '20px',
+        padding: '15px',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px'
+      }}>
+        <span style={{ fontWeight: 'bold', color: '#333' }}>分类：</span>
+        {category ? (
+          <span 
+            onClick={() => navigate(`/category/${category.id}`)}
+            style={{
+              padding: '6px 16px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              borderRadius: '20px',
+              fontSize: '14px',
+              cursor: 'pointer',
+              transition: 'all 0.3s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#0056b3'
+              e.currentTarget.style.transform = 'scale(1.05)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#007bff'
+              e.currentTarget.style.transform = 'scale(1)'
+            }}
+          >
+            {category.name}
+          </span>
+        ) : (
+          <span style={{
+            padding: '6px 16px',
+            backgroundColor: '#ccc',
+            color: '#666',
+            borderRadius: '20px',
+            fontSize: '14px',
+            fontStyle: 'italic'
+          }}>
+            无分类
+          </span>
+        )}
       </div>
       
       {/* 文章内容 */}

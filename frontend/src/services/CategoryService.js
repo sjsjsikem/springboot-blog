@@ -41,8 +41,10 @@ const categoryService = {
   },
 
   //根据分类id分页查询文章
-  getArticlesByCategoryPage: async (id, params) => {
-    const response = await api.get(`/categories/${id}/articles/page`, { params })
+  getArticlesByCategoryPage: async (id, page, size) => {
+    const response = await api.get(`/categories/${id}/articles/page`, { 
+      params: { page, size } 
+    })
     return response.data
   }
 }

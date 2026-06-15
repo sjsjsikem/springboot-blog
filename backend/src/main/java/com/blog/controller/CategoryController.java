@@ -1,11 +1,16 @@
 package com.blog.controller;
 
 import com.blog.common.Result;
+import com.blog.entity.Article;
 import com.blog.entity.ArticleCategory;
 import com.blog.entity.Category;
 import com.blog.repository.ArticleCategoryRepository;
+import com.blog.repository.ArticleRepository;
 import com.blog.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +28,8 @@ public class CategoryController {
     private final CategoryRepository categoryRepository;
 
     private final ArticleCategoryRepository articleCategoryRepository;
+
+    private final ArticleRepository articleRepository;
     
     @GetMapping
     public Result<List<Category>> getAll() {
@@ -81,11 +88,14 @@ public class CategoryController {
         return Result.success(articles);
     }
 
-    //添加getArticleIdsByCategory方法的分页方法多态
-    @GetMapping("/{id}/articles")
-    public Result<Page<ArticleCategory>> getArticleIdsByCategory(@PathVariable Long id, Pageable pageable) {
-        Page<ArticleCategory> articleIds = articleCategoryRepository.findArticleIdsByCategoryId(id, pageable);
-        return Result.success(articleIds);
+    // 根据分类ID分页查询文章（使用ArticleService）
+    @GetMapping("/{id}/articles/page")
+    public Result<Page<Article>> getArticlesByCategoryPage(@PathVariable Long id, 
+            @RequestParam(defaultValue = "0") int page, 
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Article> articles = articleRepository.findByCategoryId(id, pageable);
+        return Result.success(articles);
     }
 
     

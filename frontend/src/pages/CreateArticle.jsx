@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 //导入服务层
 import articleService from '../services/articleService'
+import categoryService from '../services/CategoryService'
+import tagService from '../services/tagService'
 
 function CreateArticle(){
 
@@ -37,7 +39,8 @@ function CreateArticle(){
     const loadCategories = async () => {
     try {
         const response = await categoryService.getAll()
-        setCategories(response.data || response)
+        // CategoryService.getAll() 已经返回 response.data，所以直接使用
+        setCategories(Array.isArray(response) ? response : [])
         } catch (err) {
         console.error('加载分类失败', err)
         }
@@ -47,7 +50,8 @@ function CreateArticle(){
     const loadTags = async () => {
     try {
         const response = await tagService.getAll()
-        setTags(response.data || response)
+        // tagService.getAll() 已经返回 response.data，所以直接使用
+        setTags(Array.isArray(response) ? response : [])
         } catch (err) {
         console.error('加载标签失败', err)
         }
