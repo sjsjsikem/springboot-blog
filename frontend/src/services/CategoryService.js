@@ -34,9 +34,15 @@ const categoryService = {
     return response.data
   },
 
-  //根据分类id查询所有文章关联
+  //根据分类id查询所有文章关联（不分页）
   getArticlesByCategory: async (id) => {
     const response = await api.get(`/categories/${id}/articles`)
+    return response.data
+  },
+
+  //根据分类id分页查询文章
+  getArticlesByCategoryPage: async (id, params) => {
+    const response = await api.get(`/categories/${id}/articles/page`, { params })
     return response.data
   }
 }

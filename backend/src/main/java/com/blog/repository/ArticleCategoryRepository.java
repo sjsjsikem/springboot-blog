@@ -1,6 +1,8 @@
 package com.blog.repository;
 
 import com.blog.entity.ArticleCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,12 +24,14 @@ public interface ArticleCategoryRepository extends JpaRepository<ArticleCategory
      */
     List<ArticleCategory> findByCategory_Id(Long categoryId);
 
+    
+
     /**
-     * 根据标签 ID 查询文章 ID 列表
-     * 用于按标签筛选文章
+     * 根据分类 ID 查询文章 ID 列表
+     * 用于按分类筛选文章
      */
-    // @Query("SELECT at.article.id FROM ArticleCategory at WHERE at.category.id = :categoryId")
-    // List<Long> findArticleIdsByCategoryId(@Param("categoryId") Long categoryId);
+    @Query("SELECT at.article.id FROM ArticleCategory at WHERE at.category.id = :categoryId")
+    Page<Long> findArticleIdsByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
     
     /**
      * 根据文章 ID 查询所有标签关联

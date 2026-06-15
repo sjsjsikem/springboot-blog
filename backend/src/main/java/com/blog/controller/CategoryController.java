@@ -81,6 +81,13 @@ public class CategoryController {
         return Result.success(articles);
     }
 
+    //添加getArticleIdsByCategory方法的分页方法多态
+    @GetMapping("/{id}/articles")
+    public Result<Page<ArticleCategory>> getArticleIdsByCategory(@PathVariable Long id, Pageable pageable) {
+        Page<ArticleCategory> articleIds = articleCategoryRepository.findArticleIdsByCategoryId(id, pageable);
+        return Result.success(articleIds);
+    }
+
     
 
 
