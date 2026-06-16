@@ -42,8 +42,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findByContentContaining(String keyword, Pageable pageable);
 
-    // 按分类名称搜索（需要通过关联查询）
-    @Query("SELECT a FROM Article a JOIN ArticleCategory ac ON a.id = ac.article.id JOIN Category c ON ac.category.id = c.id WHERE c.name LIKE %:categoryName%")
+    // 按分类名称搜索（通过Article实体中的categoryId关联Category表）
+    @Query("SELECT a FROM Article a JOIN Category c ON a.categoryId = c.id WHERE c.name LIKE %:categoryName%")
     Page<Article> findByCategoryNameContaining(@Param("categoryName") String categoryName, Pageable pageable);
 
     //复合或逻辑搜索（按标题、作者、分类、内容四者的任一组合逻辑进行或搜索，即包含多个要素搜索的其中一个即可得到文章）

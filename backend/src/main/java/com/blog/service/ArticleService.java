@@ -244,9 +244,35 @@ public class ArticleService {
     public List<Article> searchByTitle(String keyword) {
         log.info("按标题搜索，keyword = {}", keyword);
         
-        List<Article> articles = articleRepository.findByTitleContaining(keyword);
-        log.info("搜索成功，找到 {} 篇文章", articles.size());
-        return articles;
+        Page<Article> page = articleRepository.findByTitleContaining(keyword, PageRequest.of(0, 100));
+        log.info("搜索成功，找到 {} 篇文章", page.getTotalElements());
+        return page.getContent();
+    }
+
+    /**
+     * 按作者模糊查询
+     */
+    @Transactional(readOnly = true)
+    public Page<Article> searchByAuthor(String author, int page, int size) {
+        log.info("按作者搜索，author = {}, page = {}, size = {}", author, page, size);
+        
+        size = Math.min(size, 100);
+        Pageable pageable = PageRequest.of(page, size);
+        
+        return articleRepository.findByAuthorContaining(author, pageable);
+    }
+
+    /**
+     * 按内容模糊查询
+     */
+    @Transactional(readOnly = true)
+    public Page<Article> searchByContent(String keyword, int page, int size) {
+        log.info("按内容搜索，keyword = {}, page = {}, size = {}", keyword, page, size);
+        
+        size = Math.min(size, 100);
+        Pageable pageable = PageRequest.of(page, size);
+        
+        return articleRepository.findByContentContaining(keyword, pageable);
     }
 
     @Transactional(readOnly = true)
@@ -327,9 +353,9 @@ public class ArticleService {
     public List<Article> searchByAuthorOrTitle(String author, String keyword) {
         log.info("高级搜索，author = {}, keyword = {}", author, keyword);
 
-        List<Article> articles = articleRepository.findByAuthorContainingOrTitleContaining(author, keyword);
-        log.info("搜索成功，找到 {} 篇文章", articles.size());
-        return articles;
+        Page<Article> page = articleRepository.findByAuthorContainingOrTitleContaining(author, keyword, PageRequest.of(0, 100));
+        log.info("搜索成功，找到 {} 篇文章", page.getTotalElements());
+        return page.getContent();
     }
 
     /**

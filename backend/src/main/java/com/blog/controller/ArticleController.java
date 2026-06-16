@@ -122,6 +122,26 @@ public class ArticleController {
         return ResponseEntity.ok(Result.success(articles));
     }
 
+    @GetMapping("/articles/search/author")
+    public ResponseEntity<Result<Page<Article>>> searchByAuthor(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Page<Article> articlePage = articleService.searchByAuthor(keyword, page, size);
+        return ResponseEntity.ok(Result.success(articlePage));
+    }
+
+    @GetMapping("/articles/search/content")
+    public ResponseEntity<Result<Page<Article>>> searchByContent(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Page<Article> articlePage = articleService.searchByContent(keyword, page, size);
+        return ResponseEntity.ok(Result.success(articlePage));
+    }
+
     @GetMapping("/articles/search/advanced")
     public ResponseEntity<Result<List<Article>>> searchAdvanced(
             @RequestParam String author,
