@@ -175,6 +175,22 @@ function CategoryDetail() {
     // 正常渲染：分类文章列表
     return (
         <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
+            {/* 返回按钮 */}
+            <button
+                onClick={() => navigate('/createCategory')}
+                style={{
+                    marginBottom: '20px',
+                    padding: '8px 16px',
+                    backgroundColor: '#6c757d',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                }}
+            >
+                ← 返回分类列表
+            </button>
+
             <h1 style={{ marginBottom: '30px' }}>📚 分类文章列表</h1>
             
             {/* 统计信息 */}

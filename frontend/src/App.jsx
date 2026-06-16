@@ -32,6 +32,7 @@ import CategoryDetail from './pages/CategoryDetail'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import CommentList from './pages/CommentList'
+import SearchArticle from './pages/SearchArticle'
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
                 <Route path="/createCategory" element={<CreateCategory />} />
                 <Route path="/category/:id" element={<CategoryDetail />} />
                 <Route path="/comments" element={<CommentList/>} />
+                <Route path="/search" element={<SearchArticle />} />
                 
                 {/* 认证路由 */}
                 <Route path="/login" element={<Login />} />

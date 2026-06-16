@@ -81,6 +81,21 @@ function NavBar() {
             >
               📚 文章列表
             </NavLink>
+
+            <NavLink
+              to="/search"
+              style={({ isActive }) => ({
+                color: isActive ? '#ffc107' : 'white',
+                textDecoration: 'none',
+                fontWeight: isActive ? 'bold' : 'normal',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                backgroundColor: isActive ? '#495057' : 'transparent',
+                transition: 'all 0.3s'
+              })}
+            >
+              🔍 搜索文章
+            </NavLink>
            
             <select
               onChange={(e) => {

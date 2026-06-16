@@ -41,7 +41,7 @@ const articleService = {
   incrementLikeCount: async (id) => {
     const response = await api.post(`/articles/${id}/like`)
     return response.data
-  }
+  },
   
 
   // updateArticle: async (id, articleData) => {
@@ -56,22 +56,22 @@ const articleService = {
   
   
   //*搜索文章，由于参数page和size是从request传入，所以在controller中方法只传入keyword
-  // searchArticles: async (keyword, page = 0, size = 10) => {
-  //   const response = await api.get('/articles/search', {
-  //     params: { keyword, page, size }
-  //   })
-  //   return response.data
-  // },
+  searchArticle: async (keyword, page = 0, size = 10) => {
+    const response = await api.get('/articles/search', {
+      params: { keyword, page, size }
+    })
+    return response.data
+  },
 
-  // 按分类查询文章
-  // getArticlesByCategory: async (categoryId, page = 0, size = 10) => {
-  //   const response = await api.get('/articles/category', {
-  //     params: { categoryId, page, size }
-  //   })
-  //   return response.data
-  // },
+  //按分类查询文章
+  getArticlesByCategory: async (categoryId, page = 0, size = 10) => {
+    const response = await api.get('/articles/category', {
+      params: { categoryId, page, size }
+    })
+    return response.data
+  },
   
-  // 按标签查询文章
+  //按标签查询文章
   // getArticlesByTag: async (tagId, page = 0, size = 10) => {
   //   const response = await api.get('/articles/tag', {
   //     params: { tagId, page, size }

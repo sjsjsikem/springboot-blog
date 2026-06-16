@@ -122,6 +122,35 @@ public class ArticleController {
         return ResponseEntity.ok(Result.success(articles));
     }
 
+    @GetMapping("/articles/search/advanced")
+    public ResponseEntity<Result<List<Article>>> searchAdvanced(
+            @RequestParam String author,
+            @RequestParam String keyword) {
+        
+        List<Article> articles = articleService.searchByAuthorOrTitle(author, keyword);
+        return ResponseEntity.ok(Result.success(articles));
+    }
+
+    @GetMapping("/articles/search/multi")
+    public ResponseEntity<Result<Page<Article>>> searchMultiField(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Page<Article> articlePage = articleService.searchByKeyword(keyword, page, size);
+        return ResponseEntity.ok(Result.success(articlePage));
+    }
+
+    @GetMapping("/articles/search/category")
+    public ResponseEntity<Result<Page<Article>>> searchByCategoryName(
+            @RequestParam String categoryName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Page<Article> articlePage = articleService.searchByCategoryName(categoryName, page, size);
+        return ResponseEntity.ok(Result.success(articlePage));
+    }
+
 
     @GetMapping("/articles/category")
     public ResponseEntity<Result<Page<Article>>> getArticlesByCategory(

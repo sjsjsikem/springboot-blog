@@ -323,14 +323,40 @@ public class ArticleService {
     /**
      * 按作者和标题查询
      */
-    // @Transactional(readOnly = true)
-    // public List<Article> searchByAuthorOrTitle(String author, String keyword) {
-    //     log.info("高级搜索，author = {}, keyword = {}", author, keyword);
+    @Transactional(readOnly = true)
+    public List<Article> searchByAuthorOrTitle(String author, String keyword) {
+        log.info("高级搜索，author = {}, keyword = {}", author, keyword);
 
-    //     List<Article> articles = articleRepository.findByAuthorOrTitleContaining(author, keyword);
-    //     log.info("搜索成功，找到 {} 篇文章", articles.size());
-    //     return articles;
-    // }
+        List<Article> articles = articleRepository.findByAuthorContainingOrTitleContaining(author, keyword);
+        log.info("搜索成功，找到 {} 篇文章", articles.size());
+        return articles;
+    }
+
+    /**
+     * 多字段模糊搜索：标题、作者、内容任一包含关键词
+     */
+    @Transactional(readOnly = true)
+    public Page<Article> searchByKeyword(String keyword, int page, int size) {
+        log.info("多字段搜索，keyword = {}, page = {}, size = {}", keyword, page, size);
+        
+        size = Math.min(size, 100);
+        Pageable pageable = PageRequest.of(page, size);
+        
+        return articleRepository.findByTitleOrAuthorOrContentContaining(keyword, pageable);
+    }
+
+    /**
+     * 按分类名称搜索
+     */
+    @Transactional(readOnly = true)
+    public Page<Article> searchByCategoryName(String categoryName, int page, int size) {
+        log.info("按分类名称搜索，categoryName = {}, page = {}, size = {}", categoryName, page, size);
+        
+        size = Math.min(size, 100);
+        Pageable pageable = PageRequest.of(page, size);
+        
+        return articleRepository.findByCategoryNameContaining(categoryName, pageable);
+    }
         
     
     // ========== 批量操作 ==========
